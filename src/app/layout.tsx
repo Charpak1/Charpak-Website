@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google"; // Simplified import for speed
 import "./globals.css";
 import Header from "@/components/Header";
 
+// Keeping it simple with Inter for now
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
   title: "Charpak Ltd | Premium Thermoformed Packaging",
-  description: "Design-led Packaging for a Sustainable Future",
+  description: "Market leaders in design-led thermoformed packaging solutions.",
 };
 
 export default function RootLayout({
@@ -14,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${inter.className} antialiased`}>
         <Header />
         {children}
       </body>
