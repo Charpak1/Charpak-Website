@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charpak Ltd | Premium Thermoformed Packaging Design & Manufacture</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- FontAwesome (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Component Specific Styles (inline for key visual structure, moved to css later) */
+        
+        /* HEADER */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: #0A2342;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                #6B90FF 20%,
+                #6B90FF 80%,
+                transparent 100%);
+            animation: lightBarSlide 3s linear infinite;
+            box-shadow: 0 0 8px #6B90FF, 0 0 15px #6B90FF;
+        }
+
+        @keyframes lightBarSlide {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo img {
+            height: 46px;
+            display: block;
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .main-nav a {
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            position: relative;
+            color: white;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after { width: 100%; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding-top: 80px; /* Offset for header */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,35,66,0.8) 0%, rgba(28,78,128,0.7) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+        
+        .hero-shape {
+             position: absolute;
+             bottom: 0;
+             left: 0;
+             width: 100%;
+             overflow: hidden;
+             line-height: 0;
+        }
+
+        /* SECTORS CARDS */
+        .market-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .market-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .market-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .market-card:hover img {
+            transform: scale(1.05); /* Zoom effect */
+        }
+
+        .market-overlay {
+            position: relative;
+            background: linear-gradient(to top, rgba(10,35,66,0.9) 0%, rgba(10,35,66,0) 100%);
+            padding: 2rem;
+            width: 100%;
+            color: #0A2342;
+            z-index: 2;
+        }
+
+        .market-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #0A2342;
+        }
+        
+        .market-link {
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* SUSTAINABILITY */
+        .sustain-section {
+            background-color: var(--color-bg-light);
+            text-align: center;
+        }
+        
+        .stat-grid {
+            margin-top: 3rem;
+        }
+        
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: var(--color-accent);
+            margin-bottom: 0;
+        }
+        
+        .stat-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* ANIMATIONS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* MOBILE NAV (Simple) */
+        .mobile-menu-toggle { display: none; }
+        
+        /* PROCESS SECTION */
+        .process-section {
+            position: relative;
+            height: 3600px;
+        }
+
+        .process-background {
+            position: sticky;
+            top: 80px;
+            width: 100%;
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        .process-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .process-image.active {
+            opacity: 1;
+        }
+
+        .process-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,35,66,0.85) 0%, rgba(28,78,128,0.75) 100%);
+            z-index: 1;
+        }
+
+        .process-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            color: white;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .process-timeline {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .timeline-line {
+            height: 3px;
+            background: #FF6B35;
+            position: relative;
+        }
+
+        .timeline-stages {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: -20px;
+        }
+
+        .timeline-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline-stage.active {
+            opacity: 1;
+        }
+
+        .timeline-marker {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .timeline-marker img {
+            width: 35px;
+            height: auto;
+        }
+
+        .timeline-label {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .stage-info {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+
+        .stage-number {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #6B90FF;
+        }
+
+        .stage-duration {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav ul { display: none; } /* Simplified for this phase */
+            .hero h1 { font-size: 2.5rem; }
+            .mobile-menu-toggle { display: block; font-size: 1.5rem;}
+            .stage-title { font-size: 2rem; }
+            .timeline-marker { width: 40px; height: 40px; }
+            .timeline-marker img { width: 20px; }
+            .timeline-label { font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#" class="logo"><img src="Photos/Logos/Charpak Logo Horizontal.png" alt="Charpak Logo"></a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Markets</a></li>
+                    <li><a href="#">Materials</a></li>
+                    <li><a href="#">Innovation</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#" class="btn btn-primary" style="padding: 8px 20px; color: #fff;">Contact Us</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Background Slideshow -->
+        <div class="hero-background">
+            <div class="hero-slide active" style="background-image: url('Photos/Images/Hero Section/Hero Image 1.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('Photos/Images/Hero Section/Hero Image 2.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('Photos/Images/Hero Section/Hero Image 3.jpg');"></div>
+        </div>
+
+        <!-- Blue Overlay -->
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content animate-on-scroll">
+            <h1>Design-led Packaging for a Sustainable Future</h1>
+            <p>From concept to manufacture, we create premium thermoformed packaging solutions that drive the circular economy.</p>
+            <div class="btn-group">
+                <a href="#markets" class="btn btn-primary">Our Markets</a>
+                <a href="#sustainability" class="btn btn-secondary">Our Mission</a>
+            </div>
+        </div>
+
+        <!-- Curved SVG Divider -->
+        <div class="hero-shape">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#ffffff"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="process">
+        <div class="process-background">
+            <!-- Background Images -->
+            <div class="process-image active" style="background-image: url('https://images.unsplash.com/photo-1581093458791-9f3c3c6c4f9a?q=80&w=2070');"></div>
+            <div class="process-image" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070');"></div>
+            <div class="process-image" style="background-image: url('https://images.unsplash.com/photo-1581094271901-8022df4466f9?q=80&w=2070');"></div>
+            <div class="process-image" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070');"></div>
+            <div class="process-image" style="background-image: url('https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?q=80&w=2070');"></div>
+            <div class="process-image" style="background-image: url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=2070');"></div>
+
+            <!-- Blue Overlay -->
+            <div class="process-overlay"></div>
+
+            <!-- Stage Information -->
+            <div class="stage-info">
+                <div class="stage-number" id="stage-number">STAGE 1</div>
+                <h2 class="stage-title" id="stage-title">The Design Brief</h2>
+                <div class="stage-duration" id="stage-duration">1 Hour</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro / About Snippet -->
+    <section class="section text-center animate-on-scroll">
+        <div class="container">
+            <h2 class="text-primary">The UK's Premium Thermoformed Packaging Company</h2>
+            <p style="max-width: 700px; margin: 0 auto; color: var(--color-text-light);">
+                At Charpak, we design and manufacture bespoke thermoformed packaging. Our 'design first' philosophy ensures that every solution is optimized for performance, aesthetics, and sustainability. We are proud to be a Zero to Landfill manufacturer.
+            </p>
+        </div>
+    </section>
+
+    <!-- Markets Grid -->
+    <section id="markets" class="section animate-on-scroll">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 3rem;">
+                <h2>Our Expertise</h2>
+                <p>Specialist packaging solutions for diverse industries.</p>
+            </div>
+            
+            <div class="grid grid-3">
+                <!-- Card 1 -->
+                <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1628102491629-778571d604b3?q=80&w=2000&auto=format&fit=crop" alt="Food Packaging">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Food & Drink</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2101&auto=format&fit=crop" alt="Electronics Packaging">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Industrial & Electronics</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1512918760530-751b44d32a4e?q=80&w=2070&auto=format&fit=crop" alt="Luxury Packaging">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Luxury & Gift</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                 <!-- Card 4 -->
+                 <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1605658639534-11910ee15da8?q=80&w=2070&auto=format&fit=crop" alt="Medical Packaging">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Medical & Pharma</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                 <!-- Card 5 -->
+                 <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2112&auto=format&fit=crop" alt="Automotive">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Automotive</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                 <!-- Card 6 -->
+                 <div class="market-card">
+                    <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop" alt="Design Services">
+                    <div class="market-overlay">
+                        <h3 class="market-title">Bespoke Design</h3>
+                        <a href="#" class="market-link">View Solutions <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section id="sustainability" class="section sustain-section animate-on-scroll">
+        <div class="container">
+            <h2 class="text-primary">Committed to a Circular Economy</h2>
+            <p style="max-width: 650px; margin: 0 auto; margin-bottom: 2rem;">
+                We don't just make packaging; we close the loop. Our Localized Circular Economy model ensures that plastic waste is a resource, not a problem.
+            </p>
+            
+            <div class="grid grid-3 stat-grid">
+                <div class="stat-item">
+                    <h3>90%</h3>
+                    <p>Recycled Content Used</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Recyclable Products</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0%</h3>
+                    <p>Sent to Landfill</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem;">
+                <a href="#" class="btn btn-primary">Read Our Sustainability Report</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-primary-dark); color: white; padding: 4rem 0 2rem;">
+        <div class="container">
+            <div class="grid grid-4" style="gap: 3rem;">
+                <div>
+                    <h4 style="color: #0A2342; font-size: 1.5rem;">CHARPAK<span style="color: var(--color-accent);">.</span></h4>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Leading the way in sustainable thermoformed packaging design and manufacture.</p>
+                </div>
+                <div>
+                    <h5 style="color: #0A2342;">Quick Links</h5>
+                    <ul style="font-size: 0.9rem; opacity: 0.7; line-height: 2;">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Markets</a></li>
+                        <li><a href="#">Sustainabilty</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="color: #0A2342;">Contact</h5>
+                    <ul style="font-size: 0.9rem; opacity: 0.7; line-height: 1.8;">
+                        <li>info@charpak.uk</li>
+                        <li>+44 (0) 1480 434 434</li>
+                        <li>Huntingdon, Cambridgeshire, UK</li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 style="color: #0A2342;">Connect</h5>
+                    <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.8rem; opacity: 0.5;">
+                &copy; 2025 Charpak Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
